@@ -5,9 +5,9 @@ echo HobGoblin's Fast Lazy Installer and Updater for Combat Extended :D
 dotnet --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo .NET SDK is not installed. Attempting to install it using winget...
-    winget install --id=Microsoft.dotnet.SDK.7
+    winget install --id=Microsoft.dotnet.SDK.8
     if %errorlevel% neq 0 (
-        echo Failed to install .NET SDK. Please install it manually and re-run the script.
+        echo .NET SDK is not installed. Please download and install it from https://dotnet.microsoft.com/download/dotnet/8.0 manually, and then re-run the script.
         pause
         exit /b 1
     )
@@ -19,7 +19,7 @@ if %errorlevel% neq 0 (
     echo Git is not installed. Attempting to install Git using winget...
     winget install --id Git.Git -e --source winget
     if %errorlevel% neq 0 (
-        echo Failed to install Git. Please install it manually and re-run the script.
+        echo Failed to install Git. Please install it manually from https://git-scm.com/ and re-run the script.
         pause
         exit /b 1
     )
@@ -50,6 +50,7 @@ if exist %ModFolderName%/ (
     echo Updating %ModFolderName%...
     cd %ModFolderName%
     if exist .git (
+        git reset --hard HEAD
         git fetch
         git pull --rebase
         echo Building .sln files in the Source directory...
